@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projets en Recherche de Financement — AMEXPERTS & PARTNERS</title>
+  <meta name="description" content="Découvrez les projets en recherche de financement accompagnés par AMEXPERTS & PARTNERS. Opportunités d'investissement en Afrique de l'Ouest.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-overrides.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <style>
+    .disclaimer{background:rgba(123,45,139,.06);border:1px solid rgba(123,45,139,.2);border-left:4px solid var(--purple);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:2.5rem;font-size:.88rem;color:var(--gray-dark);line-height:1.7}
+    .disclaimer strong{color:var(--purple)}
+    .project-card{background:var(--white);border:1px solid #e8e4ec;border-radius:6px;overflow:hidden;margin-bottom:1.75rem;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:all .3s}
+    .project-card:hover{box-shadow:var(--shadow-lg);border-color:rgba(123,45,139,.2)}
+    .project-img{width:100%;height:200px;object-fit:cover;display:block}
+    .project-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,#1a1a2e,var(--purple-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+    .project-body{padding:1.75rem}
+    .project-ref{font-size:.75rem;color:var(--purple);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+    .project-body h3{font-size:1.2rem;margin-bottom:.75rem;line-height:1.4}
+    .project-body p{color:var(--gray-dark);font-size:.9rem;line-height:1.8;margin-bottom:1rem}
+    .project-meta{display:flex;gap:1.25rem;flex-wrap:wrap;font-size:.83rem;color:var(--gray);margin:1rem 0}
+    .project-meta i{color:var(--purple)}
+    .progress-wrap{background:#e8e4ec;border-radius:20px;height:6px;margin:.75rem 0}
+    .progress-bar{background:var(--purple);border-radius:20px;height:6px;transition:width .8s ease}
+    .progress-label{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:.3rem}
+    .project-actions{margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap}
+    .empty-state{text-align:center;padding:4rem 2rem;color:var(--gray);background:var(--bg-light);border-radius:6px}
+    .empty-state i{font-size:2.5rem;opacity:.3;display:block;margin-bottom:1rem;color:var(--purple)}
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.75rem}
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><img src="assets/logo.png" alt="AMEXPERTS &amp; PARTNERS"></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li class="dropdown">
+        <a href="service.html">Nos Services <i class="fas fa-chevron-down" style="font-size:.7em"></i></a>
+        <ul class="dropdown-menu">
+          <li><a href="service.html#redaction">Rédaction de projets</a></li>
+          <li><a href="service.html#mobilisation">Mobilisation de ressources</a></li>
+          <li><a href="service.html#formations">Formations professionnelles</a></li>
+          <li><a href="service.html#structuration">Structuration financière</a></li>
+          <li><a href="service.html#immobilier">Expertise immobilière</a></li>
+          <li><a href="service.html#industriel">Expertise industrielle</a></li>
+          <li><a href="service.html#assurance">Expertise en assurance</a></li>
+          <li><a href="service.html#juridique">Ingénierie juridique</a></li>
+        </ul>
+      </li>
+      <li><a href="realisation.html">Réalisations</a></li>
+      <li><a href="blog.html">Actualités</a></li>
+      <li class="dropdown">
+        <a href="#" class="active">Options <i class="fas fa-chevron-down" style="font-size:.7em"></i></a>
+        <ul class="dropdown-menu">
+          <li><a href="projet_finance.html" class="active">Projets en financement</a></li>
+          <li><a href="partenaires.html">Nos Partenaires</a></li>
+          <li><a href="brochure.html">Brochure Corporate</a></li>
+        </ul>
+      </li>
+      <li><a href="index.html#contact" class="nav-cta">Consultation</a></li>
+    </ul>
+    <div style="display:flex;gap:.4rem;margin-right:.5rem"><button class="lang-btn" data-lang="fr">FR</button><button class="lang-btn" data-lang="en">EN</button></div>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Accueil</a> <i class="fas fa-angle-right"></i> <span data-i18n="proj_bc">Projets en financement</span></div>
+  <h1 data-i18n="proj_ph_h1">Projets en Recherche de Financement</h1>
+  <p>Un portefeuille de projets sélectionnés, structurés et accompagnés par notre cabinet, ouverts à l'investissement.</p>
+</div>
+
+<section>
+  <div class="section-inner">
+    <div class="disclaimer">
+      <strong>Information importante :</strong> Les projets présentés sont accompagnés par AMEXPERTS & PARTNERS dans leur processus de structuration et de recherche de financement. Toute expression d'intérêt sera traitée de manière confidentielle. Les informations détaillées sont transmises aux investisseurs qualifiés sous accord de confidentialité.
+    </div>
+
+    <div id="projetsContainer">
+      <div style="text-align:center;padding:3rem;color:var(--gray)">
+        <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--purple);display:block;margin-bottom:1rem"></i>
+        <p>Chargement du portefeuille…</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOUMETTRE UN PROJET -->
+<section style="background:var(--bg-light)">
+  <div class="section-inner" style="max-width:800px">
+    <div style="text-align:center;margin-bottom:3rem">
+      <span class="section-label" data-i18n="proj_submit_label">Vous avez un projet ?</span>
+      <h2 data-i18n="proj_submit_h2">Soumettre un projet à financer</h2>
+      <p style="color:var(--gray)">Vous êtes porteur d'un projet et recherchez un financement ? Soumettez-le à notre équipe pour une analyse préliminaire gratuite.</p>
+    </div>
+    <form class="contact-form" id="projForm">
+      <div class="form-row">
+        <div class="form-group"><label>Porteur du projet *</label><input type="text" id="prNom" required placeholder="Nom / Société"></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="prEmail" required placeholder="votre@email.com"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Secteur</label>
+          <select id="prSecteur"><option>Agro-industrie</option><option>Immobilier</option><option>Énergie</option><option>Infrastructure</option><option>Industrie</option><option>Services</option><option>Autre</option></select>
+        </div>
+        <div class="form-group"><label>Montant recherché</label><input type="text" id="prMontant" placeholder="Ex: 2 M€"></div>
+      </div>
+      <div class="form-group"><label>Description du projet *</label><textarea id="prDesc" required placeholder="Décrivez votre projet : secteur, localisation, stade de développement, besoins spécifiques..."></textarea></div>
+      <button type="submit" class="btn-primary" style="align-self:flex-start"><i class="fas fa-paper-plane"></i> Soumettre mon projet</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name">AMEXPERTS <span style="color:var(--purple-light)">&</span> PARTNERS</span>
+      <p>Cabinet de conseil et d'ingénierie de projets. Lomé, Togo.</p>
+    </div>
+    <div class="footer-col"><h4 data-i18n="foot_h_svc">Services</h4><ul><li><a href="service.html#redaction">Rédaction de projets</a></li><li><a href="service.html#mobilisation">Mobilisation de ressources</a></li><li><a href="service.html#structuration">Structuration financière</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="foot_h_nav">Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="about.html">À propos</a></li><li><a href="realisation.html">Réalisations</a></li><li><a href="partenaires.html">Partenariats</a></li></ul></div>
+    <div class="footer-col"><h4 data-i18n="foot_h_contact">Contact</h4><ul><li><a href="tel:+22899468126">+228 99 46 81 26</a></li><li><a href="tel:+41779885166">+41 77 988 51 66</a></li><li><a href="mailto:info@amexpertsandpartners.net">info@amexpertsandpartners.net</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 AMEXPERTS AND PARTNERS — Tous droits réservés</p>
+    <div class="footer-social"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="https://wa.me/22899468126"><i class="fab fa-whatsapp"></i></a></div>
+  </div>
+</footer>
+
+<a href="mailto:info@amexpertsandpartners.net" class="whatsapp-float mail-float" title="Email"><i class="fas fa-envelope"></i></a>
+
+<script>
+const FB={apiKey:"AIzaSyBZ884tU0oT_bDljeCsPeMB0nOVxzbmfs4",authDomain:"amexperts-and-partners.firebaseapp.com",projectId:"amexperts-and-partners",storageBucket:"amexperts-and-partners.firebasestorage.app",messagingSenderId:"659477414372",appId:"1:659477414372:web:bea30caf34ce75505187f1"};
+
+const STATIC_PROJECTS=[
+  {ref:'AM-2025-001',secteur:'Agro-industrie',titre:'Complexe agro-industriel intégré — Transformation agricole',description:'Projet de construction et d\'exploitation d\'un complexe agro-industriel de transformation de produits agricoles locaux. Intègre une unité de transformation, un entrepôt frigorifique et un centre de conditionnement aux normes d\'exportation.',pays:'Togo',montant:'2,5 M€',pct:'40',statut:'open',tri:'18-22%',duree:'5 ans'},
+  {ref:'AM-2025-002',secteur:'Immobilier',titre:'Résidence haut standing — 80 appartements',description:'Programme immobilier résidentiel haut de gamme dans un quartier prisé d\'Abidjan. 80 appartements du T2 au T5, avec commerces en rez-de-chaussée. Permis de construire obtenu, terrain sécurisé.',pays:'Côte d\'Ivoire',montant:'5 M€',pct:'65',statut:'progress',tri:'24-28%',duree:'3 ans'},
+  {ref:'AM-2025-003',secteur:'Infrastructure',titre:'Plateforme logistique multimodale',description:'Construction d\'une plateforme logistique de 15 000 m² à proximité du corridor Lomé-Ouagadougou. Entrepôts, bureaux, zone de transit, et services connexes.',pays:'Togo',montant:'8 M€',pct:'20',statut:'open',tri:'16-19%',duree:'7 ans'},
+];
+
+const LABELS={open:'Ouvert',progress:'En cours',closed:'Clôturé'};
+
+function renderProjects(list){
+  const c=document.getElementById('projetsContainer');
+  if(!list||!list.length){
+    c.innerHTML='<div class="empty-state"><i class="fas fa-folder-open"></i><p>Aucun projet en financement pour le moment.<br>Revenez prochainement ou <a href="index.html#contact" style="color:var(--purple)">contactez-nous</a>.</p></div>';
+    return;
+  }
+  c.innerHTML='<div class="projects-grid">'+list.map(p=>`
+    <div class="project-card fade-up">
+      ${p.image?`<img src="${p.image}" alt="${p.titre||''}" class="project-img">`:`<div class="project-img-placeholder"><span>${p.secteur||'Projet'}</span></div>`}
+      <div class="project-body">
+        <div class="project-ref">${p.ref||'—'} · ${p.secteur||''}</div>
+        <h3>${p.titre||'—'}</h3>
+        <p>${p.description||''}</p>
+        <div class="project-meta">
+          <span><i class="fas fa-map-marker-alt"></i> ${p.pays||'—'}</span>
+          <span><i class="fas fa-euro-sign"></i> ${p.montant||'—'}</span>
+          ${p.tri?`<span><i class="fas fa-chart-line"></i> TRI : ${p.tri}</span>`:''}
+          ${p.duree?`<span><i class="fas fa-clock"></i> ${p.duree}</span>`:''}
+        </div>
+        ${p.pct?`<div class="progress-label"><span>Financement mobilisé</span><span>${p.pct}%</span></div><div class="progress-wrap"><div class="progress-bar" style="width:${p.pct}%"></div></div>`:''}
+        <div style="margin-bottom:.5rem"><span class="badge-status ${p.statut||'open'}">${LABELS[p.statut]||p.statut||'Ouvert'}</span></div>
+        <div class="project-actions">
+          <a href="mailto:info@amexpertsandpartners.net?subject=Intérêt investisseur — ${p.ref||p.titre||''}" class="btn-primary" style="font-size:.82rem"><i class="fas fa-envelope"></i> Exprimer mon intérêt</a>
+          <a href="index.html#contact" class="btn-purple-outline" style="font-size:.82rem"><i class="fas fa-phone"></i> Discuter</a>
+        </div>
+      </div>
+    </div>
+  `).join('')+'</div>';
+  c.querySelectorAll('.fade-up').forEach(el=>el.classList.add('visible'));
+}
+
+async function loadProjets(){
+  let db;
+  try{if(!firebase.apps.length)firebase.initializeApp(FB);db=firebase.firestore();}
+  catch(e){console.error('Firebase:',e);renderProjects(STATIC_PROJECTS);return;}
+  try{
+    let snap;
+    try{snap=await db.collection('projets_financement').orderBy('date','desc').get();}
+    catch(e){console.warn('orderBy échoué ('+e.code+'), fallback');snap=await db.collection('projets_financement').get();}
+    if(!snap||snap.empty){console.log('Projets: collection vide, projets statiques');renderProjects(STATIC_PROJECTS);return;}
+    const docs=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    renderProjects(docs);
+    console.log('✅ '+docs.length+' projet(s) Firestore');
+  }catch(e){console.error('Projets:',e);renderProjects(STATIC_PROJECTS);}
+}
+
+document.getElementById('projForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=this.querySelector('[type="submit"]');
+  const orig=btn.innerHTML;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Envoi…';btn.disabled=true;
+  const data={nom:document.getElementById('prNom').value,email:document.getElementById('prEmail').value,service:document.getElementById('prSecteur').value,organisation:document.getElementById('prMontant').value,message:document.getElementById('prDesc').value,date:new Date().toISOString(),type:'soumission_projet'};
+  try{
+    if(!firebase.apps.length)firebase.initializeApp(FB);
+    await firebase.firestore().collection('consultations').add(data);
+    alert('✅ Projet soumis ! Notre équipe vous contactera sous 48h pour une analyse préliminaire.');
+    this.reset();
+  }catch(err){console.error(err);alert('❌ Erreur. Contactez-nous directement.');}
+  finally{btn.innerHTML=orig;btn.disabled=false;}
+});
+
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById(
+</script>
+<script>
+(function(){'use strict';
+var D={
+fr:{
+  nav_home:'Accueil',nav_about:'\u00c0 propos',
+  nav_services:'Nos Services <i class="fas fa-chevron-down" style="font-size:.7em"></i>',
+  nav_realisations:'R\u00e9alisations',nav_blog:'Actualit\u00e9s',nav_real:'R\u00e9alisations',
+  nav_options:'Options <i class="fas fa-chevron-down" style="font-size:.7em"></i>',
+  nav_cta:'Consultation',
+  nav_s1:'R\u00e9daction de projets',nav_s2:'Mobilisation de ressources',
+  nav_s3:'Formations professionnelles',nav_s4:'Structuration financi\u00e8re',
+  nav_s5:'Expertise immobili\u00e8re',nav_s6:'Expertise industrielle',
+  nav_s7:'Expertise en assurance',nav_s8:'Ing\u00e9nierie juridique',
+  nav_drop1:'Projets en financement',nav_drop2:'Nos Partenaires',nav_drop3:'Brochure Corporate',
+  foot_h_svc:'Services',foot_h_nav:'Navigation',foot_h_contact:'Contact',
+  foot_tagline:"Cabinet de conseil et d'ing\u00e9nierie de projets. Expertises industrielles, techniques, de n\u00e9goces et de repr\u00e9sentation.",
+  foot_city:'Lom\u00e9, Togo \u00b7 Afrique de l\'Ouest &amp; International',
+  foot_nl:'Newsletter \u2014 Analyses &amp; Opportunit\u00e9s',foot_nl_ph:'Votre email',
+  foot_s1:'R\u00e9daction de projets',foot_s2:'Mobilisation de ressources',foot_s3:'Structuration financi\u00e8re',
+  foot_s4:'Expertise immobili\u00e8re',foot_s5:'Ing\u00e9nierie juridique',foot_s6:'Formations',
+  foot_n_blog:'Actualit\u00e9s &amp; Blog',foot_n_part:'Nos Partenaires',
+  foot_n_proj:'Projets en financement',foot_n_broch:'Brochure',
+  foot_copy:'\u00a9 2026 AMEXPERTS AND PARTNERS \u2014 Tous droits r\u00e9serv\u00e9s | Ref. 71/62029/DG/AM&amp;P',
+  loading:'Chargement\u2026',
+  about_bc:'\u00c0 propos',about_ph_h1:'\u00c0 propos du cabinet',
+  about_ph_p:"Un cabinet pluridisciplinaire fond\u00e9 sur l'excellence, l'int\u00e9grit\u00e9 et la vision internationale.",
+  about_hist_label:'Notre histoire',about_hist_h2:"N\u00e9s de l'Afrique, tourn\u00e9s vers le monde",
+  about_stat1:"Ann\u00e9es d'exp\u00e9rience",about_stat2:'Projets r\u00e9alis\u00e9s',about_stat3:"Pays d'intervention",
+  about_vision_h3:'Notre vision',about_mission_h3:'Notre mission',
+  about_val_label:'Ce qui nous guide',about_val_h2:'Nos valeurs fondamentales',
+  about_v1_h:'Excellence',about_v2_h:'Int\u00e9grit\u00e9',about_v3_h:'Innovation',
+  about_v4_h:'Partenariat',about_v5_h:'Impact africain',about_v6_h:'Confidentialit\u00e9',
+  about_v1_p:'Nous visons la plus haute qualit\u00e9 dans chaque mission.',
+  about_v2_p:"Notre \u00e9thique professionnelle est au c\u0153ur de toutes nos interventions.",
+  about_v3_p:"Nous d\u00e9veloppons des solutions cr\u00e9atives et adapt\u00e9es aux d\u00e9fis sp\u00e9cifiques.",
+  about_v4_p:"Nous construisons des relations durables avec nos clients.",
+  about_v5_p:"Nous contribuons activement au d\u00e9veloppement \u00e9conomique de l'Afrique.",
+  about_v6_p:"Toutes nos missions sont trait\u00e9es avec la plus stricte confidentialit\u00e9.",
+  about_team_label:'Notre \u00e9quipe',about_team_h2:'Des experts \u00e0 votre service',
+  about_team_p:"Une \u00e9quipe pluridisciplinaire d'experts en finance, droit, ing\u00e9nierie et strat\u00e9gie.",
+  about_eth_label:'Notre engagement',about_eth_h2:'\u00c9thique &amp; Responsabilit\u00e9',
+  about_eth_p:"AMEXPERTS &amp; PARTNERS s'engage dans le strict respect des principes d\u00e9ontologiques.",
+  about_eth1:'Conformit\u00e9 r\u00e9glementaire',about_eth2:'Protection des donn\u00e9es',
+  about_eth3:"Conflits d'int\u00e9r\u00eats",about_eth4:'Responsabilit\u00e9 sociale',
+  about_eth_btn:'Prendre contact',
+  about_vision_q:"\u00ab Devenir le cabinet de r\u00e9f\u00e9rence en ing\u00e9nierie de projets et en structuration financi\u00e8re pour le d\u00e9veloppement \u00e9conomique de l'Afrique. \u00bb",
+  about_mission_p:"Accompagner les entreprises, institutions et investisseurs dans la conception, la structuration et la r\u00e9alisation de leurs projets.",
+  real_bc:'R\u00e9alisations',real_ph_h1:'Nos R\u00e9alisations',
+  real_ph_p:"Un portefeuille de projets concrets illustrant notre expertise.",
+  real_stat1:'Projets r\u00e9alis\u00e9s',real_stat2:'Pays couverts',
+  real_stat3:'Financements mobilis\u00e9s',real_stat4:'Secteurs couverts',
+  real_portfolio_label:'Portfolio de projets',real_portfolio_h2:'\u00c9tudes de cas',
+  real_f_all:'Tous',real_f_energy:'\u00c9nergie',real_f_immo:'Immobilier',
+  real_f_agro:'Agro-industrie',real_f_finance:'Finance',real_f_infra:'Infrastructure',
+  real_temoign_label:'Ce que disent nos clients',real_temoign_h2:'T\u00e9moignages',
+  real_cta_h2:'Votre projet sera notre prochaine r\u00e9ussite',
+  real_empty:'Aucune r\u00e9alisation publi\u00e9e pour le moment.',
+  blog_ph_h1:'Actualit\u00e9s &amp; Analyses',
+  blog_ph_p:'Nos derni\u00e8res analyses, \u00e9tudes de march\u00e9 et actualit\u00e9s.',
+  blog_read_more:'Lire la suite \u2192',blog_empty:'Aucun article publi\u00e9 pour le moment.',
+  svc_label:'Ce que nous faisons',svc_title:'Nos domaines d\'expertise',
+  svc_btn:'Voir tous les services',learn_more:'En savoir plus \u2192',svc_contact:'Demander une consultation',
+  part_bc:'Nos Partenaires',part_ph_h1:'Nos Partenaires',part_empty:'Aucun partenaire publi\u00e9 pour le moment.',
+  proj_bc:'Projets en financement',proj_ph_h1:'Projets en Financement',proj_empty:'Aucun projet publi\u00e9 pour le moment.',
+  broch_bc:'Brochure Corporate',broch_ph_h1:'Brochure Corporate',
+  broch_dl_label:'T\u00e9l\u00e9chargements',broch_contact_label:'Contact direct',broch_empty:'Aucun document publi\u00e9 pour le moment.',
+  ci_addr_h:'Adresse',ci_phone_h:'T\u00e9l\u00e9phone',ci_zone_h:"Zone d'intervention",
+  ci_zone:'Afrique de l\'Ouest, Centrale &amp; International',ci_wa:'Discuter sur WhatsApp',
+  f_nom_label:'Nom complet *',f_nom_ph:'Votre nom',f_email_label:'Email *',
+  f_tel_label:'T\u00e9l\u00e9phone',f_tel_ph:'+228 xx xx xx xx',f_org_label:'Organisation',f_org_ph:'Soci\u00e9t\u00e9 / Institution',
+  f_svc_label:'Service souhait\u00e9',f_svc_default:'\u2014 S\u00e9lectionner un service \u2014',
+  f_svc1:'R\u00e9daction de projets',f_svc2:'Mobilisation de ressources',f_svc3:'Structuration financi\u00e8re',
+  f_svc4:'Expertise immobili\u00e8re',f_svc5:'Expertise industrielle',f_svc6:'Expertise en assurance',
+  f_svc7:'Ing\u00e9nierie juridique et financi\u00e8re',f_svc8:'Formations professionnelles',f_svc9:'Autre',
+  f_msg_label:'Votre message *',f_msg_ph:'D\u00e9crivez votre projet ou besoin...',
+  f_send:'Envoyer',f_sending:'Envoi\u2026',f_sent:'Envoy\u00e9 !',f_error:"Erreur d'envoi. Contactez-nous directement.",
+  hero_badge:'Cabinet de Conseil &amp; Ing\u00e9nierie \u2014 Lom\u00e9, Togo',
+  hero_h1:'L\'expertise <span>technique</span> et <span>financi\u00e8re</span><br>au service de vos projets',
+  hero_desc:'AMEXPERTS &amp; PARTNERS accompagne entreprises, institutions et investisseurs dans la structuration, le financement et la r\u00e9alisation de leurs projets.',
+  hero_cta1:'Demander une consultation',hero_cta2:'Nos services',
+  stat1:'Projets structur\u00e9s',stat2:"Pays d'intervention",stat3:'Financements mobilis\u00e9s',stat4:"D'exp\u00e9rience",
+  why_label:'Pourquoi nous choisir',why_title:'Un cabinet \u00e0 votre mesure',
+  why_btn:'D\u00e9couvrir le cabinet',why_dg:'Direction G\u00e9n\u00e9rale',why_years:'Ann\u00e9es',why_countries:'Pays',
+  ref_label:'Nos r\u00e9f\u00e9rences',ref_title:'R\u00e9alisations r\u00e9centes',ref_btn:'Voir toutes',ref_empty:'Aucune r\u00e9alisation publi\u00e9e.',
+  cta_title:'Votre projet m\u00e9rite les meilleures expertises',
+  cta_desc:'Contactez-nous pour une premi\u00e8re consultation gratuite et confidentielle.',
+  cta_btn:'Prendre rendez-vous',
+  blog_label:'Actualit\u00e9s &amp; Blog',blog_title:'Nos derni\u00e8res analyses',blog_btn:'Tout voir',
+  contact_label:'Nous contacter',contact_title:'Demandez une consultation',
+  contact_sub:'Nos experts sont disponibles pour analyser votre projet.',
+  partners_title:'Nos partenaires &amp; certifications',
+  partners_sub:'Banques \u00b7 Fonds d\'investissement \u00b7 Institutions financi\u00e8res \u00b7 ONG',
+  svc_sub:"Une offre compl\u00e8te de conseil et d'ing\u00e9nierie de projets.",
+  why_intro:'AMEXPERTS &amp; PARTNERS allie expertise technique, rigueur financi\u00e8re et connaissance du terrain africain.',
+  why1_title:'Ancrage africain, vision internationale',why1_desc:"Bas\u00e9 \u00e0 Lom\u00e9, nous intervenons dans toute l'Afrique.",
+  why2_title:"R\u00e9seau d'experts pluridisciplinaires",why2_desc:'Juristes, financiers, ing\u00e9nieurs et experts sectoriels collaborent.',
+  why3_title:'Accompagnement de bout en bout',why3_desc:'De la conception \u00e0 la mise en \u0153uvre, nous restons \u00e0 vos c\u00f4t\u00e9s.',
+  why4_title:'\u00c9thique &amp; confidentialit\u00e9',why4_desc:'Nous appliquons les plus hauts standards d\u00e9ontologiques.',
+  why_quote:'\u00ab Notre mission est de transformer vos ambitions en projets bankables. \u00bb',
+  s1_title:'R\u00e9daction de projets',s1_desc:'\u00c9tudes de faisabilit\u00e9, business plans, dossiers bancaires et bailleurs.',
+  s2_title:'Mobilisation de ressources',s2_desc:'Recherche de financement, structuration investisseurs, lev\u00e9e de fonds.',
+  s3_title:'Structuration financi\u00e8re',s3_desc:'Mod\u00e9lisation financi\u00e8re avanc\u00e9e, optimisation fiscale.',
+  s4_title:'Expertise immobili\u00e8re',s4_desc:'\u00c9valuation d\'actifs, audit immobilier et due diligence.',
+  s5_title:'Ing\u00e9nierie juridique',s5_desc:'Structuration juridique de projets, montage de financement.',
+  s6_title:'Formations professionnelles',s6_desc:'Finance structur\u00e9e, montage de projets, gestion des risques.',
+},
+en:{
+  nav_home:'Home',nav_about:'About',
+  nav_services:'Our Services <i class="fas fa-chevron-down" style="font-size:.7em"></i>',
+  nav_realisations:'Projects',nav_blog:'News',nav_real:'Projects',
+  nav_options:'More <i class="fas fa-chevron-down" style="font-size:.7em"></i>',
+  nav_cta:'Consult',
+  nav_s1:'Project writing',nav_s2:'Resource mobilization',
+  nav_s3:'Professional training',nav_s4:'Financial structuring',
+  nav_s5:'Real estate expertise',nav_s6:'Industrial expertise',
+  nav_s7:'Insurance expertise',nav_s8:'Legal engineering',
+  nav_drop1:'Projects for funding',nav_drop2:'Our Partners',nav_drop3:'Corporate Brochure',
+  foot_h_svc:'Services',foot_h_nav:'Navigation',foot_h_contact:'Contact',
+  foot_tagline:'Advisory and project engineering firm. Industrial, technical, trade and representation expertise.',
+  foot_city:'Lom\u00e9, Togo \u00b7 West Africa &amp; International',
+  foot_nl:'Newsletter \u2014 Analyses &amp; Opportunities',foot_nl_ph:'Your email',
+  foot_s1:'Project writing',foot_s2:'Resource mobilization',foot_s3:'Financial structuring',
+  foot_s4:'Real estate expertise',foot_s5:'Legal engineering',foot_s6:'Training',
+  foot_n_blog:'News &amp; Blog',foot_n_part:'Our Partners',
+  foot_n_proj:'Projects for funding',foot_n_broch:'Brochure',
+  foot_copy:'\u00a9 2026 AMEXPERTS AND PARTNERS \u2014 All rights reserved | Ref. 71/62029/DG/AM&amp;P',
+  loading:'Loading\u2026',
+  about_bc:'About',about_ph_h1:'About the firm',
+  about_ph_p:'A multidisciplinary firm built on excellence, integrity and international vision.',
+  about_hist_label:'Our history',about_hist_h2:'Born in Africa, open to the world',
+  about_stat1:'Years of experience',about_stat2:'Projects completed',about_stat3:'Countries covered',
+  about_vision_h3:'Our vision',about_mission_h3:'Our mission',
+  about_val_label:'What guides us',about_val_h2:'Our core values',
+  about_v1_h:'Excellence',about_v2_h:'Integrity',about_v3_h:'Innovation',
+  about_v4_h:'Partnership',about_v5_h:'African impact',about_v6_h:'Confidentiality',
+  about_v1_p:'We aim for the highest quality in every assignment.',
+  about_v2_p:'Our professional ethics are at the heart of all our work.',
+  about_v3_p:'We develop creative solutions tailored to specific challenges.',
+  about_v4_p:'We build lasting relationships with our clients.',
+  about_v5_p:"We actively contribute to Africa's economic development.",
+  about_v6_p:'All our assignments are handled with the strictest confidentiality.',
+  about_team_label:'Our team',about_team_h2:'Experts at your service',
+  about_team_p:'A multidisciplinary team of experts in finance, law, engineering and business strategy.',
+  about_eth_label:'Our commitment',about_eth_h2:'Ethics &amp; Responsibility',
+  about_eth_p:'AMEXPERTS &amp; PARTNERS is committed to the strict observance of ethical principles.',
+  about_eth1:'Regulatory compliance',about_eth2:'Data protection',
+  about_eth3:'Conflicts of interest',about_eth4:'Social responsibility',
+  about_eth_btn:'Get in touch',
+  about_vision_q:'"To become the reference firm in project engineering and financial structuring for Africa\'s economic development."',
+  about_mission_p:'To support businesses, institutions and investors in the design, structuring and delivery of their projects.',
+  real_bc:'Projects',real_ph_h1:'Our Projects',
+  real_ph_p:'A portfolio of concrete projects illustrating our expertise.',
+  real_stat1:'Projects completed',real_stat2:'Countries covered',
+  real_stat3:'Financing raised',real_stat4:'Sectors covered',
+  real_portfolio_label:'Project portfolio',real_portfolio_h2:'Case studies',
+  real_f_all:'All',real_f_energy:'Energy',real_f_immo:'Real estate',
+  real_f_agro:'Agro-industry',real_f_finance:'Finance',real_f_infra:'Infrastructure',
+  real_temoign_label:'What our clients say',real_temoign_h2:'Testimonials',
+  real_cta_h2:'Your project will be our next success',
+  real_empty:'No projects published yet.',
+  blog_ph_h1:'News &amp; Analyses',
+  blog_ph_p:'Our latest analyses, market studies and sector news.',
+  blog_read_more:'Read more \u2192',blog_empty:'No articles published yet.',
+  svc_label:'What we do',svc_title:'Our areas of expertise',
+  svc_btn:'See all services',learn_more:'Learn more \u2192',svc_contact:'Request a consultation',
+  part_bc:'Our Partners',part_ph_h1:'Our Partners',part_empty:'No partners published yet.',
+  proj_bc:'Projects for funding',proj_ph_h1:'Projects for Funding',proj_empty:'No projects published yet.',
+  broch_bc:'Corporate Brochure',broch_ph_h1:'Corporate Brochure',
+  broch_dl_label:'Downloads',broch_contact_label:'Direct contact',broch_empty:'No documents published yet.',
+  ci_addr_h:'Address',ci_phone_h:'Phone',ci_zone_h:'Area of intervention',
+  ci_zone:'West Africa, Central Africa &amp; International',ci_wa:'Chat on WhatsApp',
+  f_nom_label:'Full name *',f_nom_ph:'Your name',f_email_label:'Email *',
+  f_tel_label:'Phone',f_tel_ph:'+228 xx xx xx xx',f_org_label:'Organisation',f_org_ph:'Company / Institution',
+  f_svc_label:'Service required',f_svc_default:'\u2014 Select a service \u2014',
+  f_svc1:'Project writing',f_svc2:'Resource mobilization',f_svc3:'Financial structuring',
+  f_svc4:'Real estate expertise',f_svc5:'Industrial expertise',f_svc6:'Insurance expertise',
+  f_svc7:'Legal and financial engineering',f_svc8:'Professional training',f_svc9:'Other',
+  f_msg_label:'Your message *',f_msg_ph:'Describe your project or need...',
+  f_send:'Send',f_sending:'Sending\u2026',f_sent:'Sent!',f_error:'Sending error. Please contact us directly.',
+  hero_badge:'Consulting &amp; Engineering Firm \u2014 Lom\u00e9, Togo',
+  hero_h1:'<span>Technical</span> and <span>financial</span> expertise<br>at the service of your projects',
+  hero_desc:'AMEXPERTS &amp; PARTNERS supports businesses, institutions and investors in structuring, financing and delivering their projects.',
+  hero_cta1:'Request a consultation',hero_cta2:'Our services',
+  stat1:'Structured projects',stat2:'Countries covered',stat3:'Financing raised',stat4:'Of experience',
+  why_label:'Why choose us',why_title:'A firm tailored to your needs',
+  why_btn:'Discover the firm',why_dg:'General Management',why_years:'Years',why_countries:'Countries',
+  ref_label:'Our references',ref_title:'Recent projects',ref_btn:'See all',ref_empty:'No projects published yet.',
+  cta_title:'Your project deserves the best expertise',
+  cta_desc:'Contact us for a first free and confidential consultation.',
+  cta_btn:'Book an appointment',
+  blog_label:'News &amp; Blog',blog_title:'Our latest analyses',blog_btn:'View all',
+  contact_label:'Contact us',contact_title:'Request a consultation',
+  contact_sub:'Our experts are available to analyse your project and offer the best solutions.',
+  partners_title:'Our partners &amp; certifications',
+  partners_sub:'Banks \u00b7 Investment funds \u00b7 Financial institutions \u00b7 NGOs',
+  svc_sub:'A comprehensive advisory and project engineering offer for your ambitions.',
+  why_intro:'AMEXPERTS &amp; PARTNERS combines technical expertise, financial rigour and knowledge of the African landscape.',
+  why1_title:'African roots, international vision',why1_desc:'Based in Lom\u00e9, we operate throughout Africa and internationally.',
+  why2_title:'Multidisciplinary expert network',why2_desc:'Lawyers, financiers, engineers and sector experts collaborate.',
+  why3_title:'End-to-end support',why3_desc:'From design to implementation, we stay by your side.',
+  why4_title:'Ethics &amp; confidentiality',why4_desc:'We apply the highest ethical standards.',
+  why_quote:'"Our mission is to transform your ambitions into bankable projects."',
+  s1_title:'Project writing',s1_desc:'Feasibility studies, business plans, banking and donor files.',
+  s2_title:'Resource mobilization',s2_desc:'Financing search, investor structuring, fundraising.',
+  s3_title:'Financial structuring',s3_desc:'Advanced financial modelling, tax optimization.',
+  s4_title:'Real estate expertise',s4_desc:'Asset valuation, property audit and due diligence.',
+  s5_title:'Legal engineering',s5_desc:'Legal project structuring, financing arrangements.',
+  s6_title:'Professional training',s6_desc:'Structured finance, project design, risk management.',
+}
+};
+var _cache={};
+try{_cache=JSON.parse(localStorage.getItem('amp_trans_cache')||'{}');}catch(e){_cache={};}
+function saveCache(){try{localStorage.setItem('amp_trans_cache',JSON.stringify(_cache));}catch(e){}}
+async function autoTrans(txt){
+  if(!txt||typeof txt!=='string'||txt.trim().length<3)return txt||'';
+  var key=txt.trim().substring(0,100);
+  if(_cache[key])return _cache[key];
+  try{
+    var r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,
+        system:'Professional FR to EN translator for finance consulting. Return ONLY the translation.',
+        messages:[{role:'user',content:txt}]})
+    });
+    var data=await r.json();
+    var t=(data.content&&data.content[0]&&data.content[0].text)||txt;
+    _cache[key]=t;saveCache();return t;
+  }catch(e){return txt;}
+}
+var _lang='fr';
+try{_lang=localStorage.getItem('amp_lang')||'fr';}catch(e){}
+window._ampLang=_lang;
+function applyStatic(l){
+  var d=D[l];if(!d)return;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');if(d[k]!==undefined)el.innerHTML=d[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var k=el.getAttribute('data-i18n-ph');if(d[k]!==undefined)el.placeholder=d[k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.toggle('active',b.dataset.lang===l);});
+  document.documentElement.lang=l;
+}
+function applyLang(l){
+  _lang=l;window._ampLang=l;
+  try{localStorage.setItem('amp_lang',l);}catch(e){}
+  applyStatic(l);
+  if(window._reloadDynamic)window._reloadDynamic(l);
+}
+window.applyLang=applyLang;
+window._i18n=D;
+window.autoTrans=autoTrans;
+document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){applyLang(this.dataset.lang);});});
+var _tog=document.getElementById('navToggle'),_lnk=document.getElementById('navLinks');
+if(_tog&&_lnk){
+  _tog.addEventListener('click',function(){_lnk.classList.toggle('open');});
+  _lnk.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){_lnk.classList.remove('open');});});
+}
+(function(){
+  var els=document.querySelectorAll('.fade-up');
+  try{
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.05});
+    els.forEach(function(el){obs.observe(el);});
+  }catch(e){els.forEach(function(el){el.classList.add('visible');});}
+  setTimeout(function(){els.forEach(function(el){el.classList.add('visible');});},500);
+})();
+document.querySelectorAll('.counter').forEach(function(el){
+  var t=parseInt(el.dataset.target)||0,s=el.dataset.suffix||'';
+  try{
+    var obs=new IntersectionObserver(function(entries){
+      if(!entries[0].isIntersecting)return;obs.disconnect();
+      var c=0,step=t/(1800/16);
+      var tick=function(){c=Math.min(c+step,t);el.textContent=Math.floor(c)+s;if(c<t)requestAnimationFrame(tick);};tick();
+    });obs.observe(el);
+  }catch(e){el.textContent=t+s;}
+  setTimeout(function(){el.textContent=t+s;},2500);
+});
+applyStatic(_lang);
+})();
+</script>
+</body>
+</html>
