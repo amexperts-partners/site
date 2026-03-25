@@ -460,7 +460,14 @@ applyStatic(_lang);
 </script>
 <script>
 (function(){
-var _FB={apiKey:"AIzaSyBZ884tU0oT_bDljeCsPeMB0nOVxzbmfs4",authDomain:"amexperts-and-partners.firebaseapp.com",projectId:"amexperts-and-partners",storageBucket:"amexperts-and-partners.firebasestorage.app",messagingSenderId:"659477414372",appId:"1:659477414372:web:bea30caf34ce75505187f1"};
+const firebaseConfig = {
+  apiKey: "AIzaSyDVz2PHEwE1pa_66vEcaJebBIlBWxEDdZI",
+  authDomain: "amexperts-4798b.firebaseapp.com",
+  projectId: "amexperts-4798b",
+  storageBucket: "amexperts-4798b.firebasestorage.app",
+  messagingSenderId: "935958350634",
+  appId: "1:935958350634:web:2abc1ffdcd397b8b91ec53"
+};
 var _db=null;
 function getDB(){if(_db)return _db;if(!firebase.apps.length)firebase.initializeApp(_FB);_db=firebase.firestore();return _db;}
 try{getDB();}catch(e){console.error('Firebase:',e);}
